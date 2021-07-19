@@ -79,7 +79,16 @@ jobs:
   #      $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/debug/app-debug.apk
 
     - name: run test
+      continue-on-error: true
       run: |
         ./gradlew connectedAndroidTest
         #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
 
+    - name: grab screen
+      run: |
+        $ANDROID_HOME/platform-tools/adb exec-out screencap -p > screen.png
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: screen.png
+        path: screen.png
