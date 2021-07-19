@@ -20,4 +20,12 @@ jobs:
     
     - name: build
       run: |
-        ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
+        echo ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
+
+    - name: create AVD
+      run: |
+        SDK_PLATFORM=30
+        echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
+        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
+        echo "AVD created:"
+        "$ANDROID_HOME/emulator/emulator" -list-avds
