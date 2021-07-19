@@ -18,9 +18,9 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     
-    - name: build
-      run: |
-        ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
+    #    - name: build
+    #  run: |
+      #    ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
 
     - name: create AVD
       run: |
@@ -72,10 +72,10 @@ jobs:
         
         "$ANDROID_HOME/platform-tools/adb" shell ls 
 
-    - name: install apk
-      run: |
-        $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-        $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/debug/app-debug.apk
+#    - name: install apk
+#      run: |
+  #        $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+  #      $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/debug/app-debug.apk
 
     - name: run test
       run: |
