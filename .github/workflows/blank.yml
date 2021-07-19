@@ -24,9 +24,21 @@ jobs:
 
     - name: create AVD
       run: |
-        SDK_PLATFORM=30
-        echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
-        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
+        export API=28
+        if [ $API == 28 ]
+        then
+          export PACKAGE="system-images;android-${API};google_apis;x86"
+          export ABI="google_apis/x86"
+        else
+          export PACKAGE="system-images;android-${API};google_apis;x86_64"
+          export ABI="google_apis/x86_64"
+        fi
+
+        export EMULATOR_NAME="${EMULATOR}_API${API}"
+        #echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
+        echo y | $ANDROID_HOME/tools/bin/sdkmanager --install $PACKAGE
+        #echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
+        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d pixel_xl --abi $ABI --package $PACKAGE --force
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
