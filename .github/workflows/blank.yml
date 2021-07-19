@@ -61,6 +61,6 @@ jobs:
 
     - name: run test
       run: |
-        ./gradlew connectedVariantNameAndroidTest
+        ./gradlew connectedAndroidTest
         #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m    -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
 

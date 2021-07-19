@@ -34,5 +34,4 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.text))
                 .check(matches(withText("Clicked")));
     }
-
 }
