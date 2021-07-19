@@ -32,7 +32,7 @@ jobs:
 
     - name: run emulator
       run: |
-        export ANDROID_EMULATOR_DEBUG=1
+        #export ANDROID_EMULATOR_DEBUG=1
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
         EMU_BOOTED='unknown'
         n=0
