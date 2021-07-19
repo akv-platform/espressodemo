@@ -20,7 +20,7 @@ jobs:
     
     - name: build
       run: |
-        echo ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
+        ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
 
     - name: create AVD
       run: |
@@ -29,3 +29,38 @@ jobs:
         echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
+
+    - name: run emulator
+      run: |
+        export ANDROID_EMULATOR_DEBUG=1
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
+        EMU_BOOTED='unknown'
+        n=0
+        
+        echo "Waiting for device 45 sec..."
+        sleep 45
+        
+        while
+            echo "Waiting android to boot 10 sec..."
+            sleep 10
+            EMU_BOOTED=`adb shell 'getprop sys.boot_completed'`
+            echo "getprop sys.boot_complete=$EMU_BOOTED"
+            n=$((n + 1))
+            if [ $n -gt 30 ]; then
+                echo "Android Emulator does not start in 5 minutes"
+                exit 2
+            fi
+           [[ ${EMU_BOOTED} != *"1"* ]]
+           do :
+        done
+        echo "Android Emulator started."
+        
+        echo "Access emulator with adb"
+        
+        "$ANDROID_HOME/platform-tools/adb" shell ls 
+
+    - name: run test
+      run: |
+        ./gradlew connectedVariantNameAndroidTest
+        #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m    -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
+
