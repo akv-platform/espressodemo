@@ -59,8 +59,13 @@ jobs:
         
         "$ANDROID_HOME/platform-tools/adb" shell ls 
 
+    - name: install apk
+      run: |
+        $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+        $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/debug/app-debug.apk
+
     - name: run test
       run: |
-        ./gradlew connectedAndroidTest
-        #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m    -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
+        #./gradlew connectedAndroidTest
+        $ANDROID_HOME/platform-tools/adb shell am instrument -w -m    -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
 
