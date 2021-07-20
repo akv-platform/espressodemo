@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     strategy:
      matrix:
-       api: [30, 30, 30, 30, 30]
+       api: [1, 2, 3, 4, 5]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -26,7 +26,8 @@ jobs:
 
     - name: create AVD
       run: |
-        export API=${{matrix.api}}
+        export API=30
+        #${{matrix.api}}
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
@@ -114,5 +115,5 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: screen.png
+        name: screen-${{matrix.api}}.png
         path: screen.png
