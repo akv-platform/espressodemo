@@ -42,9 +42,13 @@ jobs:
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
-    - name: find .ini
+    - name: modify config.ini
       run: |
-        find $ANDROID_HOME -name '*.ini'
+        echo 'config.ini'
+        cat ~/.android/avd/TestAvd.avd/config.ini
+        echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
+        echo '== config.ini modified'
+        cat ~/.android/avd/TestAvd.avd/config.ini
 
     - name: run emulator
       continue-on-error: true
