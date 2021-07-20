@@ -42,6 +42,10 @@ jobs:
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
+    - name: find .ini
+      run: |
+        find $ANDROID_HOME -name '*.ini'
+
     - name: run emulator
       continue-on-error: true
       run: |
