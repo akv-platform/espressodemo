@@ -51,7 +51,7 @@ jobs:
         #sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
         #echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
         #echo 'disk.dataPartition.size=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
-        echo 'hw.ramSize=1024MB' >> ~/.android/avd/TestAvd.avd/config.ini
+        echo 'hw.ramSize=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
         echo '== config.ini modified'
         cat ~/.android/avd/TestAvd.avd/config.ini
 
