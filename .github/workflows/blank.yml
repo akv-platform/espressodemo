@@ -68,6 +68,7 @@ jobs:
         sleep 45
         
         while
+            adb shell dumpsys window windows
             echo "Waiting android to boot 10 sec..."
             sleep 10
             EMU_BOOTED=`adb shell 'getprop sys.boot_completed'`
