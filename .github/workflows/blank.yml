@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     strategy:
      matrix:
-       api: [28, 29, 30, 30, 30]
+       api: [30, 30, 30, 30, 30]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,7 +27,7 @@ jobs:
     - name: create AVD
       run: |
         export API=${{matrix.api}}
-        if [ $API == 28 -o $API == 30 ]
+        if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
           export ABI="google_apis/x86"
@@ -51,14 +51,14 @@ jobs:
         #sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
         #echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
         #echo 'disk.dataPartition.size=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
-        echo 'hw.ramSize=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
-        echo '== config.ini modified'
-        cat ~/.android/avd/TestAvd.avd/config.ini
+        #echo 'hw.ramSize=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
+        #echo '== config.ini modified'
+        #cat ~/.android/avd/TestAvd.avd/config.ini
 
     - name: run emulator
       continue-on-error: true
       run: |
-        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu host -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
         EMU_BOOTED='unknown'
         n=0
         
