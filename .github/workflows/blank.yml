@@ -40,7 +40,7 @@ jobs:
         #echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
         #echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
         echo y | $ANDROID_HOME/tools/bin/sdkmanager --install $PACKAGE
-        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d pixel_xl --abi $ABI --package $PACKAGE --force
+        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d "Nexus 9" --abi $ABI --package $PACKAGE --force
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
@@ -54,7 +54,7 @@ jobs:
         cat ~/.android/avd/TestAvd.avd/config.ini
         #sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
         #echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
-        echo 'disk.dataPartition.size=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
+        #echo 'disk.dataPartition.size=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
         #echo 'hw.ramSize=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
         #echo '== config.ini modified'
         #cat ~/.android/avd/TestAvd.avd/config.ini
