@@ -40,7 +40,7 @@ jobs:
         #echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
         #echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
         echo y | $ANDROID_HOME/tools/bin/sdkmanager --install $PACKAGE
-        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d pixel_xl --abi $ABI --package $PACKAGE --force
+        echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d "" --abi $ABI --package $PACKAGE --force
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
@@ -62,7 +62,7 @@ jobs:
     - name: run emulator
       continue-on-error: true
       run: |
-        (nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu host -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 & )
+        (nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu no -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 & )
         EMU_BOOTED='unknown'
         n=0
         
