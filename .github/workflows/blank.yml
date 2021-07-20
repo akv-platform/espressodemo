@@ -24,7 +24,7 @@ jobs:
 
     - name: create AVD
       run: |
-        export API=28
+        export API=30
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
