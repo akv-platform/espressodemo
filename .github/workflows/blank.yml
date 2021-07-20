@@ -62,7 +62,7 @@ jobs:
     - name: run emulator
       continue-on-error: true
       run: |
-        (nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu no -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 & )
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu no -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
         EMU_BOOTED='unknown'
         n=0
         
