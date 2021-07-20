@@ -46,10 +46,10 @@ jobs:
       continue-on-error: true
       run: |
         #export ANDROID_EMULATOR_DEBUG=1
-        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
+        #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
         #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data -memory 4000 2>&1 &
         # popup VV
-        #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -partition-size 4096 -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
         EMU_BOOTED='unknown'
         n=0
         
