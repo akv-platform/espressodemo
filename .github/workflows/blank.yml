@@ -26,7 +26,7 @@ jobs:
 
     - name: create AVD
       run: |
-        export API= ${{matrix.api}}
+        export API=${{matrix.api}}
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
