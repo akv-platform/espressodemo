@@ -25,7 +25,7 @@ jobs:
       #    ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
 
     - name: create AVD
-      run: |
+     run: |
         export API=${{matrix.api}}
         if [ $API == 28 ]
         then
@@ -43,6 +43,10 @@ jobs:
         echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d pixel_xl --abi $ABI --package $PACKAGE --force
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
+
+    - name: accel chic
+      run: |
+        "$ANDROID_HOME/emulator/emulator" -accel-check
 
     - name: modify config.ini
       run: |
@@ -84,6 +88,10 @@ jobs:
         echo "Access emulator with adb"
         
         "$ANDROID_HOME/platform-tools/adb" shell ls || true
+
+    - name: show emulator log
+      run: |
+        cat nohup.out
 
 #    - name: install apk
 #      run: |
