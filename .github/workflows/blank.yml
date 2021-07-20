@@ -13,16 +13,7 @@ jobs:
     runs-on: macos-latest
     strategy:
      matrix:
-       sdk_28:
-         SDK: 28
-       sdk_29:
-         SDK: 29
-       sdk_30_1:
-         SDK: 30
-       sdk_30_2:
-         SDK: 30
-       sdk_30_3:
-         SDK: 30
+       api: [28, 29, 30, 30, 30]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,7 +26,7 @@ jobs:
 
     - name: create AVD
       run: |
-        export API= ${{SDK}}
+        export API= ${{matrix.api}}
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
