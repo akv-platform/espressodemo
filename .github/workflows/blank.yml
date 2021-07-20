@@ -10,7 +10,7 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
      matrix:
        api: [30, 30, 30, 30, 30]
@@ -62,7 +62,7 @@ jobs:
     - name: run emulator
       continue-on-error: true
       run: |
-        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu host -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
+        (nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -gpu host -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 & )
         EMU_BOOTED='unknown'
         n=0
         
@@ -91,7 +91,7 @@ jobs:
 
     - name: show emulator log
       run: |
-        cat nohup.out
+        test -f nohup.out && cat nohup.out || echo 'no nohup.out'
 
 #    - name: install apk
 #      run: |
