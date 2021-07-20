@@ -43,6 +43,7 @@ jobs:
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
     - name: run emulator
+      continue-on-error: true
       run: |
         #export ANDROID_EMULATOR_DEBUG=1
         #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
@@ -62,6 +63,7 @@ jobs:
             n=$((n + 1))
             if [ $n -gt 30 ]; then
                 echo "Android Emulator does not start in 5 minutes"
+                echo "failed" > /tmp/failed
                 exit 2
             fi
            [[ ${EMU_BOOTED} != *"1"* ]]
@@ -81,7 +83,11 @@ jobs:
     - name: run test
       continue-on-error: true
       run: |
-        ./gradlew connectedAndroidTest
+        if test -s /tmp/failed; then 
+          echo "Skip"
+        else
+          ./gradlew connectedAndroidTest
+        fi
         #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
 
     - name: grab screen
