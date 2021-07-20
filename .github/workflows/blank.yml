@@ -25,7 +25,7 @@ jobs:
       #    ./gradlew :app:assembleDebug  :app:assembleDebugAndroidTest
 
     - name: create AVD
-     run: |
+      run: |
         export API=${{matrix.api}}
         if [ $API == 28 ]
         then
@@ -44,7 +44,7 @@ jobs:
         echo "AVD created:"
         "$ANDROID_HOME/emulator/emulator" -list-avds
 
-    - name: accel chic
+    - name: accel check
       run: |
         "$ANDROID_HOME/emulator/emulator" -accel-check
 
