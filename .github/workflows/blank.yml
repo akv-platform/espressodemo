@@ -8,10 +8,21 @@ on: [push, workflow_dispatch]
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: macos-latest
+    strategy:
+     matrix:
+       sdk_28:
+         SDK: 28
+       sdk_29:
+         SDK: 29
+       sdk_30_1:
+         SDK: 30
+       sdk_30_2:
+         SDK: 30
+       sdk_30_3:
+         SDK: 30
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -24,7 +35,7 @@ jobs:
 
     - name: create AVD
       run: |
-        export API=30
+        export API= ${{SDK}}
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
@@ -46,9 +57,9 @@ jobs:
       run: |
         echo 'config.ini'
         cat ~/.android/avd/TestAvd.avd/config.ini
-        sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
-        echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
-        echo 'disk.dataPartition.size=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
+        #sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
+        #echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
+        #echo 'disk.dataPartition.size=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
         echo 'hw.ramSize=1024MB' >> ~/.android/avd/TestAvd.avd/config.ini
         echo '== config.ini modified'
         cat ~/.android/avd/TestAvd.avd/config.ini
@@ -56,10 +67,6 @@ jobs:
     - name: run emulator
       continue-on-error: true
       run: |
-        #export ANDROID_EMULATOR_DEBUG=1
-        #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
-        #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data -memory 4000 2>&1 &
-        # popup VV
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
         EMU_BOOTED='unknown'
         n=0
@@ -68,7 +75,6 @@ jobs:
         sleep 45
         
         while
-            adb shell dumpsys window windows
             echo "Waiting android to boot 10 sec..."
             sleep 10
             EMU_BOOTED=`adb shell 'getprop sys.boot_completed'`
