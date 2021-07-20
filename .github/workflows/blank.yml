@@ -46,8 +46,10 @@ jobs:
       run: |
         echo 'config.ini'
         cat ~/.android/avd/TestAvd.avd/config.ini
-        sed  -ibak -e 's/hw.mainKeys=no/hw.mainKeys=true/'  ~/.android/avd/TestAvd.avd/config.ini
+        sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
         echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
+        echo 'disk.dataPartition.size=2048MB' >> ~/.android/avd/TestAvd.avd/config.ini
+        echo 'hw.ramSize=1024MB' >> ~/.android/avd/TestAvd.avd/config.ini
         echo '== config.ini modified'
         cat ~/.android/avd/TestAvd.avd/config.ini
 
@@ -58,7 +60,7 @@ jobs:
         #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot-load 2>&1 &
         #nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data -memory 4000 2>&1 &
         # popup VV
-        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -partition-size 4096 -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
+        nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
         EMU_BOOTED='unknown'
         n=0
         
