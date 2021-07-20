@@ -46,6 +46,7 @@ jobs:
       run: |
         echo 'config.ini'
         cat ~/.android/avd/TestAvd.avd/config.ini
+        sed -e 's/hw.mainKeys=no/hw.mainKeys=true/' -i'' ~/.android/avd/TestAvd.avd/config.ini
         echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
         echo '== config.ini modified'
         cat ~/.android/avd/TestAvd.avd/config.ini
