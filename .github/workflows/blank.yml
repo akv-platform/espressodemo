@@ -73,10 +73,14 @@ jobs:
               EMU_BOOTED=1
               rm /tmp/failed
             ;;
-            *"Not Responding"*)
+            *"Not Responding: com.android.systemui"*)
               echo "Dismiss System UI isn't responding alert"
               adb shell input keyevent KEYCODE_DPAD_DOWN
               adb shell input keyevent KEYCODE_DPAD_DOWN
+              adb shell input keyevent KEYCODE_ENTER
+            ;;
+            *"Not Responding: com.google.android.gms"*)
+              echo "Dismiss GMS isn't responding alert"
               adb shell input keyevent KEYCODE_ENTER
             ;;
             *)
