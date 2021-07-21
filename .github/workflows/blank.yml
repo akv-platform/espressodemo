@@ -2,22 +2,16 @@
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on: [push, workflow_dispatch]
     
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    # The type of runner that the job will run on
     runs-on: macos-latest
     strategy:
      matrix:
        api: [1, 2, 3, 4, 5]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     
     #    - name: build
@@ -37,8 +31,6 @@ jobs:
         fi
 
         export EMULATOR_NAME="${EMULATOR}_API${API}"
-        #echo y | "$ANDROID_HOME/tools/bin/sdkmanager" "system-images;android-${SDK_PLATFORM};google_apis;x86"
-        #echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -k "system-images;android-${SDK_PLATFORM};google_apis;x86"
         echo y | $ANDROID_HOME/tools/bin/sdkmanager --install $PACKAGE
         echo no | "$ANDROID_HOME/tools/bin/avdmanager" create avd -n TestAvd -d pixel_xl --abi $ABI --package $PACKAGE --force
         echo "AVD created:"
@@ -63,7 +55,7 @@ jobs:
       continue-on-error: true
       run: |
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
-        EMU_BOOTED='unknown'
+        EMU_BOOTED=0
         n=0
         
         echo "Waiting for device 45 sec..."
@@ -72,8 +64,10 @@ jobs:
         while [[ ${EMU_BOOTED} != "1" ]];do
             echo "Waiting android to boot 10 sec..."
             sleep 10
-            CURRENT_FOCUS=`adb shell dumpsys window windows 2>/dev/null | grep -i mCurrentFocus`
-            echo "(DEBUG) Current focus: ${CURRENT_FOCUS}"
+            echo "Test for current focus"
+            $ANDROID_HOME/platform-tools/adb shell dumpsys window windows 
+            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window windows 2>/dev/null | grep -i mCurrentFocus`
+            echo "Current focus: ${CURRENT_FOCUS}"
 
             case $CURRENT_FOCUS in
             *"Launcher"*)
