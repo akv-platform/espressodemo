@@ -66,7 +66,7 @@ jobs:
             sleep 10
             echo "Test for current focus"
             $ANDROID_HOME/platform-tools/adb shell dumpsys window windows 
-            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window windows 2>/dev/null | grep -i mCurrentFocus`
+            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window2>/dev/null | grep -i mCurrentFocus`
             echo "Current focus: ${CURRENT_FOCUS}"
 
             case $CURRENT_FOCUS in
