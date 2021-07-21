@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-latest
     strategy:
      matrix:
-       api: [1, 2]
+       api: [1-28, 2-29, 3-30, 4-30, 5-30]
 
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
 
     - name: create AVD
       run: |
-        export API=30
+        export API=`echo ${{matrix.api}}|cut -f 2 -d'-'`
         if [ $API == 28 ]
         then
           export PACKAGE="system-images;android-${API};google_apis;x86"
@@ -44,15 +44,8 @@ jobs:
       run: |
         echo 'config.ini'
         cat ~/.android/avd/TestAvd.avd/config.ini
-        #sed  -ibak -e '/^hw.mainKeys/d'  ~/.android/avd/TestAvd.avd/config.ini
-        #echo 'hw.mainKeys=true' >> ~/.android/avd/TestAvd.avd/config.ini
-        #echo 'disk.dataPartition.size=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
-        #echo 'hw.ramSize=8192MB' >> ~/.android/avd/TestAvd.avd/config.ini
-        #echo '== config.ini modified'
-        #cat ~/.android/avd/TestAvd.avd/config.ini
 
     - name: run emulator
-      continue-on-error: true
       run: |
         set +e
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
@@ -61,7 +54,6 @@ jobs:
         $ANDROID_HOME/platform-tools/adb wait-for-device shell true
         echo "Android is booting..."
         
-        echo 1 > /tmp/failed
         EMU_BOOTED=0
         n=0
         while [[ $EMU_BOOTED = 0 ]];do
@@ -73,7 +65,6 @@ jobs:
             case $CURRENT_FOCUS in
             *"Launcher"*)
               echo "Launcher is ready, Android boot completed"
-              rm /tmp/failed
               EMU_BOOTED=1
             ;;
             *"Not Responding"*)
@@ -94,9 +85,9 @@ jobs:
             esac
         done
         echo "Android Emulator started."
-        
-        echo "Access emulator with adb"
-        
+
+    - name: access emulator with adb
+      run: |
         "$ANDROID_HOME/platform-tools/adb" shell ls || true
 
     - name: show emulator log
