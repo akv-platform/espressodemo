@@ -65,8 +65,8 @@ jobs:
         n=0
         while [[ $EMU_BOOTED = 0 ]];do
             echo "Test for current focus"
-            $ANDROID_HOME/platform-tools/adb shell dumpsys window
-            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window > /dev/null | grep -i mCurrentFocus || true`
+            #        $ANDROID_HOME/platform-tools/adb shell dumpsys window
+            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window > /dev/null | grep -i mCurrentFocus`
             echo "Current focus: ${CURRENT_FOCUS}"
 
             case $CURRENT_FOCUS in
