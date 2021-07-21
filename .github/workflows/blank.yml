@@ -83,7 +83,6 @@ jobs:
               echo "Dismiss GMS isn't responding alert"
               adb shell input keyevent KEYCODE_ENTER
             ;;
-            ;;
             *"Not Responding: system"*)
               echo "Dismiss Process system isn't responding alert"
               adb shell input keyevent KEYCODE_ENTER
