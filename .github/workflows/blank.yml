@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-latest
     strategy:
      matrix:
-       api: [1, 2, 3, 4, 5]
+       api: [1, 2]
 
     steps:
     - uses: actions/checkout@v2
@@ -61,6 +61,7 @@ jobs:
         echo "Waiting for device 45 sec..."
         sleep 45
         
+        echo 1 > /tmp/failed
         while [[ ${EMU_BOOTED} != "1" ]];do
             echo "Waiting android to boot 10 sec..."
             sleep 10
@@ -71,6 +72,7 @@ jobs:
 
             case $CURRENT_FOCUS in
             *"Launcher"*)
+              rm /tmp/failed
               EMU_BOOTED=1
             ;;
             *"Not Responding"*)
