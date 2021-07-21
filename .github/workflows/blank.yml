@@ -26,7 +26,8 @@ jobs:
           export PACKAGE="system-images;android-${API};google_apis;x86"
           export ABI="google_apis/x86"
         else
-          export PACKAGE="system-images;android-${API};google_apis;x86_64"
+        #export PACKAGE="system-images;android-${API};google_apis;x86_64"
+          export PACKAGE="system-images;android-${API};x86_64"
           export ABI="google_apis/x86_64"
         fi
 
