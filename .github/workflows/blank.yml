@@ -63,30 +63,30 @@ jobs:
         echo 1 > /tmp/failed
         EMU_BOOTED=0
         n=0
-        while [[ ${EMU_BOOTED} != "1" ]];do
-            echo "Waiting android to boot 10 sec..."
-            sleep 10
+        while [[ $EMU_BOOTED = 0 ]];do
             echo "Test for current focus"
             $ANDROID_HOME/platform-tools/adb shell dumpsys window
-            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window > /dev/null | grep -i mCurrentFocus`
+            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window > /dev/null | grep -i mCurrentFocus || true`
             echo "Current focus: ${CURRENT_FOCUS}"
 
             case $CURRENT_FOCUS in
             *"Launcher"*)
+              echo "Launcher is ready, Android boot completed"
               rm /tmp/failed
               EMU_BOOTED=1
             ;;
             *"Not Responding"*)
-              echo "System UI isn't responding ..."
+              echo "Dismiss System UI isn't responding alert"
               adb shell input keyevent KEYCODE_DPAD_DOWN
               adb shell input keyevent KEYCODE_DPAD_DOWN
               adb shell input keyevent KEYCODE_ENTER
             ;;
             *)
               n=$((n + 1))
+              echo "Waiting Android to boot 10 sec ($n)..."
+              sleep 10
               if [ $n -gt 30 ]; then
                   echo "Android Emulator does not start in 5 minutes"
-                  echo "failed" > /tmp/failed
                   exit 2
               fi
             ;;

@@ -154,3 +154,7 @@ emulator: WARNING: Running on a system with less than 6 logical cores. Setting n
 added library /Users/dsa/Library/Android/sdk/emulator/lib64/vulkan/libMoltenVK.dylib
 emulator: INFO: GrpcServices.cpp:315: Started GRPC server at 127.0.0.1:8554, security: Local
 emulator: INFO: EmulatorAdvertisement.cpp:93: Advertising in: /Users/dsa/Library/Caches/TemporaryItems/avd/running/pid_52042.ini
+emulator: WARNING: Discarding the changed state (command-line flag).
+emulator: INFO: QtLogger.cpp:68: Warning: Failed to get QCocoaScreen for NSObject(0x0) ((null):0, (null))
+
+
