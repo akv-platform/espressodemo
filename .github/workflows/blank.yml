@@ -46,6 +46,7 @@ jobs:
         cat ~/.android/avd/TestAvd.avd/config.ini
 
     - name: run emulator
+      continue-on-error: true
       run: |
         set +e
         nohup "$ANDROID_HOME/emulator/emulator" -avd TestAvd -no-snapshot -no-window -no-audio -no-boot-anim -accel on -wipe-data 2>&1 &
@@ -56,6 +57,7 @@ jobs:
         
         EMU_BOOTED=0
         n=0
+        echo 1 > /tmp/failed
         while [[ $EMU_BOOTED = 0 ]];do
             echo "Test for current focus"
             #        $ANDROID_HOME/platform-tools/adb shell dumpsys window
@@ -66,6 +68,7 @@ jobs:
             *"Launcher"*)
               echo "Launcher is ready, Android boot completed"
               EMU_BOOTED=1
+              rm /tmp/failed
             ;;
             *"Not Responding"*)
               echo "Dismiss System UI isn't responding alert"
@@ -88,7 +91,11 @@ jobs:
 
     - name: access emulator with adb
       run: |
-        "$ANDROID_HOME/platform-tools/adb" shell ls || true
+        if test -s /tmp/failed; then 
+          echo "Skip"
+        else
+          "$ANDROID_HOME/platform-tools/adb" shell ls || true
+        fi
 
     - name: show emulator log
       run: |
