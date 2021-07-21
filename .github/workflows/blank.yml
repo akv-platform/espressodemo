@@ -26,8 +26,7 @@ jobs:
           export PACKAGE="system-images;android-${API};google_apis;x86"
           export ABI="google_apis/x86"
         else
-        #export PACKAGE="system-images;android-${API};google_apis;x86_64"
-          export PACKAGE="system-images;android-${API};x86_64"
+          export PACKAGE="system-images;android-${API};google_apis;x86_64"
           export ABI="google_apis/x86_64"
         fi
 
@@ -81,8 +80,8 @@ jobs:
               n=$((n + 1))
               echo "Waiting Android to boot 10 sec ($n)..."
               sleep 10
-              if [ $n -gt 30 ]; then
-                  echo "Android Emulator does not start in 5 minutes"
+              if [ $n -gt 60 ]; then
+                  echo "Android Emulator does not start in 10 minutes"
                   exit 2
               fi
             ;;
