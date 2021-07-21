@@ -83,6 +83,11 @@ jobs:
               echo "Dismiss GMS isn't responding alert"
               adb shell input keyevent KEYCODE_ENTER
             ;;
+            ;;
+            *"Not Responding: system"*)
+              echo "Dismiss Process system isn't responding alert"
+              adb shell input keyevent KEYCODE_ENTER
+            ;;
             *)
               n=$((n + 1))
               echo "Waiting Android to boot 10 sec ($n)..."
