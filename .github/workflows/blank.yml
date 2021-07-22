@@ -82,6 +82,7 @@ jobs:
             ;;
             *"Not Responding: com.android.systemui"*)
               echo "Dismiss System UI isn't responding alert"
+              adb shell input keyevent KEYCODE_ENTER
               adb shell input keyevent KEYCODE_DPAD_DOWN
               adb shell input keyevent KEYCODE_ENTER
               first_launcher=1
