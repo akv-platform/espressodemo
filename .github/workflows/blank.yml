@@ -76,16 +76,20 @@ jobs:
             *"Not Responding: com.android.systemui"*)
               echo "Dismiss System UI isn't responding alert"
               # adb shell input keyevent KEYCODE_DPAD_DOWN
-              adb shell input keyevent KEYCODE_DPAD_DOWN
-              adb shell input keyevent KEYCODE_ENTER
+              #adb shell input keyevent KEYCODE_DPAD_DOWN
+              #adb shell input keyevent KEYCODE_ENTER
+              adb shell input keyevent KEYCODE_BACK
             ;;
             *"Not Responding: com.google.android.gms"*)
               echo "Dismiss GMS isn't responding alert"
-              adb shell input keyevent KEYCODE_ENTER
+              #adb shell input keyevent KEYCODE_ENTER
+              #adb shell input keyevent KEYCODE_BACK
+              adb shell input keyevent KEYCODE_BACK
             ;;
             *"Not Responding: system"*)
               echo "Dismiss Process system isn't responding alert"
-              adb shell input keyevent KEYCODE_ENTER
+              #adb shell input keyevent KEYCODE_ENTER
+              adb shell input keyevent KEYCODE_BACK
             ;;
             *)
               n=$((n + 1))
@@ -123,6 +127,10 @@ jobs:
         if test -s /tmp/failed; then 
           echo "Skip"
         else
+            CURRENT_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window 2>/dev/null | grep -i mCurrentFocus`
+            if [[ CURRENT_FOCUS != *"Launcher"* ]]; then
+              adb shell input keyevent KEYCODE_BACK
+            fi
           ./gradlew connectedAndroidTest
         fi
         #$ANDROID_HOME/platform-tools/adb shell am instrument -w -m -e debug false -e class 'vsedoli.espressodemo.ExampleInstrumentedTest' vsedoli.espressodemo.test/androidx.test.runner.AndroidJUnitRunner
